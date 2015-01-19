@@ -11,7 +11,7 @@ import org.genericdao.ConnectionPool;
 import org.genericdao.DAOException;
 
 public class Model {
-	private FavoriteDAO favoriteDAO;
+	private FundDAO fundDAO;
 	private UserDAO userDAO;
 
 	public Model(ServletConfig config) throws ServletException {
@@ -21,13 +21,14 @@ public class Model {
 			
 			ConnectionPool pool = new ConnectionPool(jdbcDriver,jdbcURL);
 			
-			userDAO  = new UserDAO(pool, "xuzhao_user");
-			favoriteDAO = new FavoriteDAO(pool, "xuzhao_favorite");
+		fundDAO  = new FundDAO(pool, "xuzhao_user");
 		} catch (DAOException e) {
 			throw new ServletException(e);
 		}
 	}
 	
-	public FavoriteDAO getFavoriteDAO()  { return favoriteDAO; }
+	public FundDAO getFundDAO()  { return fundDAO; }
 	public UserDAO getUserDAO()  { return userDAO; }
+
+	
 }
