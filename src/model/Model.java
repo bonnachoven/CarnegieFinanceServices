@@ -13,7 +13,8 @@ import org.genericdao.DAOException;
 public class Model {
 	private FundDAO fundDAO;
 	private EmployeeDAO employeeDAO;
-
+	private CustomerAccountDAO accountDAO;
+	
 	public Model(ServletConfig config) throws ServletException {
 		try {
 			String jdbcDriver = config.getInitParameter("jdbcDriverName");
@@ -31,6 +32,6 @@ public class Model {
 	
 	public FundDAO getFundDAO()  { return fundDAO; }
 	public EmployeeDAO getEmployeeDAO()  { return employeeDAO; }
-
+	public CustomerAccountDAO getCustomerAccountDAO()  { return accountDAO; }
 	
 }
