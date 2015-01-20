@@ -12,7 +12,7 @@ import org.genericdao.DAOException;
 
 public class Model {
 	private FundDAO fundDAO;
-	private UserDAO userDAO;
+	private EmployeeDAO employeeDAO;
 
 	public Model(ServletConfig config) throws ServletException {
 		try {
@@ -21,14 +21,16 @@ public class Model {
 			
 			ConnectionPool pool = new ConnectionPool(jdbcDriver,jdbcURL);
 			
-		fundDAO  = new FundDAO(pool, "xuzhao_user");
+		fundDAO  = new FundDAO(pool, "xuzhao_fund");
+		employeeDAO  = new EmployeeDAO(pool, "xuzhao_employee");
+
 		} catch (DAOException e) {
 			throw new ServletException(e);
 		}
 	}
 	
 	public FundDAO getFundDAO()  { return fundDAO; }
-	public UserDAO getUserDAO()  { return userDAO; }
+	public EmployeeDAO getEmployeeDAO()  { return employeeDAO; }
 
 	
 }
