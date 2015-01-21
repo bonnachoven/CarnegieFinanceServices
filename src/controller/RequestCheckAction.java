@@ -12,6 +12,7 @@ import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 
+import databean.Customer;
 import databean.CustomerAccount;
 import databean.Favorite;
 import databean.User;
@@ -60,25 +61,28 @@ public class RequestCheckAction extends Action {
 	        	return"customerRequestCheck.jsp";
 	        }
 	        
-	        CustomerAccount acnt= new CustomerAccount();
+	        Customer acnt= new Customer();
+	        /*
+	        if after transaction day : balance is not negative then:
+	          Double amt= form.getCheckAmountAsDouble();
+	        Double bal= acnt.getCash();
+
+	        if(bal-amt>0){
+	        bal = bal-amt;
+	        acnt.setCash(bal);
 	        
+	 //and then update in  the db
+	        }else{
+	        	errors.add("Your account balance is too low to withdraw a check");
+	        	   if after transaction day : balance is  negative then:
+	        	   errors.add("You dont have sufficient balance to withdraw a check");
+	        }*/
+
+	        	       
 	        
 	        
 	      
-	     /*  Favorite fav = new Favorite();
-	        fav.setUrl(form.getUrl());
-	        fav.setComment(form.getComment());
-       		fav.setClickCount(0);
-       		fav.setUserId(user.getUserId());
-       		
-       		
-       		favoriteDAO.add(fav);*/
-
-       	
-       		
-       		//request.setAttribute("favorites", favoriteDAO.getUserFavorites(user.getUserId()));
-       		
-			//return "add.do";
+	     
 	        request.setAttribute("message","Thank You! Your request will be processed after the next transition day. ");
 	        return "success.jsp";
 
