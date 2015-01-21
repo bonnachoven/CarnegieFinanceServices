@@ -2,82 +2,62 @@ package formbean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.mybeans.form.FormBean;
 
 public class BuyFundForm extends FormBean {
-	private String amountAsString;
-	private String action;
-	private int customerId;
-	private long amount;
-	private int fundId;
-	private Long shares;
+	private String amount;
+	private String fund;
 
-	public long getAmount() {
+	public String getAmount() {
 		return amount;
 	}
-
-	public String getAction() {
-		return action;
+	
+	public String getFund() {
+		return fund;
 	}
 	
-	public int getFundID() {
-		return fundId;
-	}
-	
-	public Long getShares() {
-		return shares;
-	}
-	
-	public void setAmount(String a) {
-		amount = Long.parseLong(sanitize(a.trim()));
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 
-	public void setAction(String s) {
-		action = s;
+	
+	public void setFund(String fund) {
+		this.fund = fund; 
 	}
 	
-	public void setFundID(String fundId) {
-		this.fundId = Integer.parseInt(fundId); 
+	public boolean checkDecimal(String input) {
+		Pattern p = Pattern.compile("[+-]?[0-9]+.{0,1}[0-9]{0,2}");
+		return p.matcher(input).matches();
 	}
-	
-	public void setShares(String shares) {
-		this.shares = Long.parseLong(shares); 
-	}
-	
 
 	public List<String> getValidationErrors() {
 		List<String> errors = new ArrayList<String>();
 
-		if (amountAsString == null || amountAsString.length() == 0) {
+		if (amount == null || amount.length() == 0) {
 			errors.add("Amount is required.");
 		}
-
-		if (errors.size() > 0) {
-			return errors;
+		if (fund == null || fund.length() == 0) {
+			errors.add("Please choose a fund");
 		}
-
-		if (action == null || action.length() == 0) {
-			errors.add("Action is required.");
+		
+		if(!checkDecimal(amount)){
+			errors.add("Only numbers with a maximum of 2 decimals places are allowed for amount.");
 		}
-
+		
 		if (errors.size() > 0)
 			return errors;
 
-		if (!action.equals("Buy"))
-			errors.add("Invalid action.");
-
 		try {
-			Long.parseLong(sanitize(amountAsString.trim()));
+			System.out.println("amount is"+amount);
+			long amt = Long.parseLong(amount);
+			amt = Math.round(amt*100);
+			amt=amt/100;
 		} catch (NumberFormatException e) {
-			errors.add("invalid amount input.");
+			errors.add("Invalid amount input.");
 		}
 
 		return errors;
-	}
-
-	private String sanitize(String s) {
-		return s.replace("&", "&amp;").replace("<", "&lt;")
-				.replace(">", "&gt;").replace("\"", "&quot;");
 	}
 }
