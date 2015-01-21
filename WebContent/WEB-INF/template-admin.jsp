@@ -25,7 +25,6 @@ huamingl
 
 
 <body>
-<%@ page import="databean.UserBean" %>
 <div class="container">
 		<div class="row">
 			<nav class="navbar navbar-default" role="main">
