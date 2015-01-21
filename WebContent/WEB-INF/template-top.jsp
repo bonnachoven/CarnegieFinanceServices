@@ -7,16 +7,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-<title>Carnegie Finance System</title>
-<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css"
-	rel="stylesheet">
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<meta charset="UTF-8">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="pragma" content="no-cache">
+	<title>Favorite Website</title>
+	<style>
+		.menu-head {font-size: 10pt; font-weight: bold; color: black; }
+		.menu-item {font-size: 10pt;  color: black }
+    </style>
 </head>
 
 <body>
-<%@ page import="databean.Fund" %>
+<%@ page import="databean.User" %>
 
 <table cellpadding="4" cellspacing="0">
     <tr>

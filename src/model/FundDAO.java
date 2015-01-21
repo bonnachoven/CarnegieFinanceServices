@@ -14,6 +14,7 @@ import org.genericdao.RollbackException;
 import org.genericdao.Transaction;
 
 import databean.Fund;
+import databean.User;
 
 public class FundDAO extends GenericDAO<Fund> {
 	public FundDAO(ConnectionPool cp, String tableName) throws DAOException {

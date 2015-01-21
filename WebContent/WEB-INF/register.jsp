@@ -10,8 +10,8 @@
 <!DOCTYPE html>
 <html>
  
-<body>
-<jsp:include page="error-list.jsp" />
+	<body>
+		<jsp:include page="error-list.jsp" />
 
 <jsp:include page="template-top.jsp" />
 

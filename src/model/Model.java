@@ -12,9 +12,14 @@ import org.genericdao.DAOException;
 
 public class Model {
 	private FundDAO fundDAO;
+<<<<<<< HEAD
 	private EmployeeDAO employeeDAO;
 	private CustomerAccountDAO accountDAO;
 	
+=======
+	private UserDAO userDAO;
+
+>>>>>>> parent of e59fc5a... 01/20
 	public Model(ServletConfig config) throws ServletException {
 		try {
 			String jdbcDriver = config.getInitParameter("jdbcDriverName");
@@ -22,16 +27,19 @@ public class Model {
 			
 			ConnectionPool pool = new ConnectionPool(jdbcDriver,jdbcURL);
 			
-		fundDAO  = new FundDAO(pool, "xuzhao_fund");
-		employeeDAO  = new EmployeeDAO(pool, "xuzhao_employee");
-
+		fundDAO  = new FundDAO(pool, "xuzhao_user");
 		} catch (DAOException e) {
 			throw new ServletException(e);
 		}
 	}
 	
 	public FundDAO getFundDAO()  { return fundDAO; }
+<<<<<<< HEAD
 	public EmployeeDAO getEmployeeDAO()  { return employeeDAO; }
 	public CustomerAccountDAO getCustomerAccountDAO()  { return accountDAO; }
+=======
+	public UserDAO getUserDAO()  { return userDAO; }
+
+>>>>>>> parent of e59fc5a... 01/20
 	
 }
