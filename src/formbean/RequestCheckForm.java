@@ -11,7 +11,7 @@ public class RequestCheckForm extends FormBean {
 	public String getCheckAmount() {
 		return amount;
 	}
-
+// hope this would not create a problem
 	public double getCheckAmountAsDouble() {
 		// Be sure to first call getValidationErrors() to ensure
 		// that NullPointer exception or NumberFormatException will not be
