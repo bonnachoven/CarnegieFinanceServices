@@ -27,6 +27,11 @@ public class CustomerDAO extends GenericDAO<Customer> {
 		return customers;
 	}
 
+	public Customer readUsers(String username) throws RollbackException {
+		Customer[] cb = match(MatchArg.equals("userName", username));
+		if (cb == null || cb.length == 0) return null;
+		return cb[0];
+	}
 
 
 	public void setPassword(String customerName, String password)

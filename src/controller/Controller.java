@@ -15,11 +15,15 @@ import javax.servlet.http.HttpSession;
 
 import org.genericdao.RollbackException;
 
-import model.FavoriteDAO;
 import model.Model;
-import model.UserDAO;
-import databean.Favorite;
-import databean.User;
+import model.EmployeeDAO;
+import model.CustomerDAO;
+
+
+//import databean.Favorite;
+//import databean.User;
+import databean.Customer;
+import databean.Employee;
 
 @SuppressWarnings("serial")
 public class Controller extends HttpServlet {
@@ -27,20 +31,15 @@ public class Controller extends HttpServlet {
 	public void init() throws ServletException {
 		Model model = new Model(getServletConfig());
 
-		try {
-			createSampleUser(model);
-		} catch (RollbackException e) {
-			e.printStackTrace();
-		}
-
-		Action.add(new ChangePwdAction(model));
+//		Action.add(new ChangePwdAction(model));
 		Action.add(new LoginAction(model));
-		Action.add(new LogoutAction(model));
-		Action.add(new RegisterAction(model));
-		Action.add(new ListAction(model));
-		Action.add(new AddAction(model));
-		Action.add(new UpdateAction(model));
-		Action.add(new DeleteAction(model));
+//		Action.add(new LogoutAction(model));
+//		Action.add(new RegisterAction(model));
+//		Action.add(new ListAction(model));
+//		Action.add(new AddAction(model));
+//		Action.add(new UpdateAction(model));
+//		Action.add(new DeleteAction(model));
+		initializeTable(model.getCustomerDAO(), model.getEmployeeDAO());
 
 	}
 
@@ -66,7 +65,9 @@ public class Controller extends HttpServlet {
 	private String performTheAction(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		String servletPath = request.getServletPath();
-		User user = (User) session.getAttribute("user");
+		Customer customer = (Customer) session.getAttribute("customer");
+		Employee employee = (Employee) session.getAttribute("employee");
+		
 		String action = getActionName(servletPath);
 
 		// System.out.println("servletPath="+servletPath+" requestURI="+request.getRequestURI()+"  user="+user);
@@ -77,7 +78,7 @@ public class Controller extends HttpServlet {
 			return Action.perform(action, request);
 		}
 
-		if (user == null) {
+		if (customer == null && employee == null) {
 			// If the user hasn't logged in, direct him to the login page
 			return Action.perform("login.do", request);
 		}
@@ -125,32 +126,21 @@ public class Controller extends HttpServlet {
 		return path.substring(slash + 1);
 	}
 
-	private void createSampleUser(Model model) throws RollbackException {
-		UserDAO userDAO;
-		FavoriteDAO favoriteDAO;
-
-		userDAO = model.getUserDAO();
-		favoriteDAO = model.getFavoriteDAO();
-
-		if (userDAO.getCount() == 0) {
-			// create the users and favorites
-			for (int i = 1; i < 4; i++) {
-				User u1 = new User();
-				u1.setUserEmail("User" + i + "@cmu.edu");
-				u1.setUserFirstName("User");
-				u1.setUserLastName("" + i + "");
-				u1.setPassword("password");
-				userDAO.createAutoIncrement(u1);
-				for (int x = 1; x < 5; x++) {
-					Favorite f1 = new Favorite();
-					f1.setUrl("http://www.cmu.edu");
-					f1.setComment("Sample url" + x + " My school");
-					f1.setUserId(u1.getUserId());
-					favoriteDAO.createAutoIncrement(f1);
-				}
-			}
-		}
-
+    public void initializeTable(CustomerDAO customerDAO , EmployeeDAO employeeDAO) {
+    	try {
+    		Employee admin = employeeDAO.read("admin");
+    		if (admin == null) {
+    			admin = new Employee();
+    			admin.setEmployeeName("admin");
+    			admin.setPassword("passw0rd");
+            	employeeDAO.create(admin);
+    		}
+    	}
+    	catch (RollbackException e) {
+    		e.printStackTrace();
+    	}
+    	
 	}
+	
 
 }

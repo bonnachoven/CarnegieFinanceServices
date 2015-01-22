@@ -12,14 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import model.Model;
-import model.UserDAO;
+//import model.UserDAO;
+import model.CustomerDAO;
+import model.EmployeeDAO;
 
 import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 
-import databean.User;
+import databean.Customer;
+import databean.Employee;
 import formbean.LoginForm;
+
 
 /*
  * Processes the parameters from the form in login.jsp.
@@ -33,10 +37,13 @@ import formbean.LoginForm;
 public class LoginAction extends Action {
 	private FormBeanFactory<LoginForm> formBeanFactory = FormBeanFactory.getInstance(LoginForm.class);
 	
-	private UserDAO userDAO;
+//	private UserDAO userDAO;
+	private CustomerDAO customerDAO;
+	private EmployeeDAO  employeeDAO;
 
 	public LoginAction(Model model) {
-		userDAO = model.getUserDAO();
+		customerDAO = model.getCustomerDAO();
+		employeeDAO = model.getEmployeeDAO();
 	}
 
 	public String getName() { return "login.do"; }
@@ -44,11 +51,12 @@ public class LoginAction extends Action {
     public String perform(HttpServletRequest request) {
         List<String> errors = new ArrayList<String>();
         request.setAttribute("errors",errors);
+        System.out.println("errors: "  + errors.size());
         
         try {
+        	
 	    	LoginForm form = formBeanFactory.create(request);
 	        request.setAttribute("form",form);
-			request.setAttribute("userList",userDAO.getUsers());
 
 
 	        // If no params were passed, return with no errors so that the form will be
@@ -63,24 +71,40 @@ public class LoginAction extends Action {
 	            return "login.jsp";
 	        }
 
-	        // Look up the user
-	        User user = userDAO.read_from_email(form.getUserEmail());
 	        
-	        if (user == null) {
-	            errors.add("User Name not found");
-	            return "login.jsp";
-	        }
-	        // Check the password
-	        if (!user.checkPassword(form.getPassword())) {
-	            errors.add("Incorrect password");
-	            return "login.jsp";
-	        }
-	
-	        // Attach (this copy of) the user bean to the session
-	        HttpSession session = request.getSession();
-	        session.setAttribute("user",user);
+	        // Look up the user
+	        
 
-			return "add.do";
+	        HttpSession session = request.getSession();
+	        if (form.getType().equals("c")) {
+	        	Customer customer = customerDAO.read(form.getUserName());
+	        	if (customer == null) {
+		            errors.add("This customer does not exist");
+		            System.out.println("error has: " + errors.size());
+		            return "login.jsp";
+		        }
+	        	if (!customer.checkPassword(form.getPassword())) {
+		            errors.add("Incorrect password");
+		            return "login.jsp";
+		        }
+	        	session.setAttribute("customer",customer);
+				return "add.do";
+	        }
+	        else {
+	        	Employee employee = employeeDAO.read(form.getUserName());
+	        	if (employee == null) {
+		            errors.add("This employee does not exist");
+		            System.out.println("This employee does not exist");
+		            return "login.jsp";
+		        }
+	        	
+	        	if (!employee.checkPassword(form.getPassword())) {
+		            errors.add("Incorrect password");
+		            return "login.jsp";
+		        }
+	        	session.setAttribute("employee",employee);
+				return "add.do";
+	        }
         } catch (RollbackException e) {
         	errors.add(e.getMessage());
         	return "error.jsp";

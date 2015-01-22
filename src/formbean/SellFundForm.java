@@ -3,7 +3,9 @@ package formbean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellFundForm {
+import org.mybeans.form.FormBean;
+
+public class SellFundForm extends FormBean {
 	private String fundId;
 	private String action;
 	private String shares;

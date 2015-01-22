@@ -7,16 +7,19 @@ import java.util.Random;
 
 import org.genericdao.PrimaryKey;
 
-@PrimaryKey("employName")
-public class Employee {
-	private String  employeeName = null;
 
+
+
+@PrimaryKey("employeeName")
+public class Employee implements Comparable<Employee> {
+	private String  employeeName = null;
 	private String  hashedPassword = "*";
 	private int     salt           = 0;
-
 	private String  employeeFirstName      = null;
 	private String  employeeLastName       = null;
+	private int employeeID  = 0;
 
+	
 
 	public boolean checkPassword(String password) {
 		return hashedPassword.equals(hash(password));
@@ -42,20 +45,21 @@ public class Employee {
 	public String  getHashedPassword() { return hashedPassword; }
 	public String  getEmployeeName()       { return employeeName;       }
 	public int     getSalt()           { return salt;           }
-
 	public String  getEmployeeFirstName()      { return employeeFirstName;      }
 	public String  getEmployeeLastName()       { return employeeLastName;       }
-
 	public int     hashCode()          { return employeeName.hashCode(); }
+	public int getEmployeeID() {
+		return this.employeeID;
+	}
 
 	public void setHashedPassword(String x)  { hashedPassword = x; }
 	public void setPassword(String s)        { salt = newSalt(); hashedPassword = hash(s); }
 	public void setSalt(int x)               { salt = x;           }
 
-	public void setemployeeFirstName(String s)       { employeeFirstName = s;      }
-	public void setemployeeLastName(String s)        { employeeLastName = s;       }
+	public void setEmployeeFirstName(String s)       { employeeFirstName = s;      }
+	public void setEmployeeLastName(String s)        { employeeLastName = s;       }
 
-	public void setemployeeName(String s)        { employeeName = s;       }
+	public void setEmployeeName(String s)        { employeeName = s;       }
 
 	public String toString() {
 		return "employee("+getEmployeeName()+")";

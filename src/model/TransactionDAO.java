@@ -58,7 +58,7 @@ public class TransactionDAO extends GenericDAO<TransactionBean> {
 	}
 	
 	
-	public double getValidShares (String customerId, double shares) throws RollbackException {
+	public double getValidShares (int customerId, double shares) throws RollbackException {
 		TransactionBean[] tbs = null;
 		try {
 			Transaction.begin();

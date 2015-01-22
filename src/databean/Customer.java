@@ -17,6 +17,7 @@ public class Customer {
 	
 	private int    customerId;
 	private String username;
+	private String email;
 	private String firstName;
 	private String lastName;
 	private String password;
@@ -33,7 +34,8 @@ public class Customer {
 	public String getFirstName()    { return firstName; }
 	public String getLastName()     { return lastName;  }
 	public String getPassword()     { return password;  }
-	public String getUsername() 	{ return username;		}
+	public String getUsername() 	{ return username;	}
+	public String getEmail() 		{ return email;	}
 	public long getCash() 		    { return cash;		}
 	public String getAddrLine1() 	{ return addrLine1; }
 	public String getAddrLine2() 	{ return addrLine2;	}
@@ -42,6 +44,7 @@ public class Customer {
 
 	public void setCustomerId(int i) 	  {	customerId = i; }
 	public void setUsername(String s) 	  {	username   = s; }
+	public void setEmail(String s) 	  	  {	email   = s; }
     public void setFirstName(String s) 	  {	firstName  = s; }
 	public void setLastName(String s)     {	lastName   = s; }
 	public void setPassword(String s)     {	salt = newSalt(); hashedPassword = hash(s); }
@@ -94,7 +97,11 @@ public class Customer {
 
 		return digestStr;
 	}
-
+	
+	public boolean checkPassword(String password) {
+		return hashedPassword.equals(hash(password));
+	}
+	
 	private int newSalt() {
 		Random random = new Random();
 		return random.nextInt(8192)+1;  // salt cannot be zero

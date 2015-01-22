@@ -17,8 +17,9 @@ import org.genericdao.RollbackException;
 import org.mybeans.form.FormBeanFactory;
 
 import databean.Customer;
+import databean.FundDisplay;
 import databean.Position;
-import databean.Transaction;
+import databean.TransactionBean;
 import formbean.SellFundForm;
 
 public class SellFundAction  extends Action {
@@ -54,16 +55,16 @@ public class SellFundAction  extends Action {
 				DecimalFormat df3 = new DecimalFormat("#,##0.000");
 
 				FundDisplay[] fundList = null;
-				Position[] positionList = positionDAO.getFunds(customer.getUsername());
+				Position[] positionList = positionDAO.getFunds(customer.getCustomerId());
 				
 				if (positionList != null && positionList.length > 0) {
 					fundList = new FundDisplay[positionList.length];
 
 					for (int i = 0; i < positionList.length; i++) {
 						fundList[i].setFundId(positionList[i].getFundId());
-						fundList[i].setFundName(fundDAO.read(positionList[i].getFundId()).getName());
+						fundList[i].setFundName(fundDAO.read(positionList[i].getFundId()).getFundName());
 						fundList[i].setTicker(fundDAO.read(positionList[i].getFundId()).getTicker());
-						fundList[i].setShares(df3.format(transactionDAO.getValidShares(customer.getUsername() , positionList[i].getShares() / 1000.0)));
+						fundList[i].setShares(df3.format(transactionDAO.getValidShares(customer.getCustomerId() , positionList[i].getShares() / 1000.0)));
 					}
 				}
 				
@@ -78,7 +79,7 @@ public class SellFundAction  extends Action {
 		        if (errors.size() > 0) return "sellFund.jsp";
 	        
 		        Double sharesToSell = Double.parseDouble(form.getShares());
-		        Double sharesHeld =  transactionDAO.getValidShares(customer.getUsername() , 
+		        Double sharesHeld =  transactionDAO.getValidShares(customer.getCustomerId() , 
 		        		positionDAO.read(customer.getUsername(), Integer.parseInt(form.getFundId())).getShares() / 1000.0);
 		        		
 			
@@ -88,11 +89,11 @@ public class SellFundAction  extends Action {
 		      			      
 		        if (errors.size() > 0) return "sellFund.jsp";	        	
 		        
-		        Transaction transbean= new Transaction();
+		        TransactionBean transbean= new TransactionBean();
 		        transbean.setCustomerId(customer.getCustomerId());
 		        transbean.setFundId(Integer.parseInt(form.getFundId()));
 		        transbean.setShares((long)(sharesToSell * 1000.0));
-		        transbean.setTransactionType(Transaction.SELL_FUND);
+		        transbean.setTransactionType(3);
 		        transbean.setExecuteDate(null);
 		        transactionDAO.create(transbean);
 
