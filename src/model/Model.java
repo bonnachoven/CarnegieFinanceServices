@@ -13,8 +13,10 @@ import org.genericdao.DAOException;
 public class Model {
 	private FundDAO fundDAO;
 	private EmployeeDAO employeeDAO;
-	private CustomerAccountDAO accountDAO;
+	private CustomerDAO accountDAO;
 	private UserDAO userDAO;
+	private TransactionDAO transactionDAO;
+	private PositionDAO positionDAO;
 
 	public Model(ServletConfig config) throws ServletException {
 		try {
@@ -31,8 +33,10 @@ public class Model {
 	
 	public FundDAO getFundDAO()  { return fundDAO; }
 	public EmployeeDAO getEmployeeDAO()  { return employeeDAO; }
-	public CustomerAccountDAO getCustomerAccountDAO()  { return accountDAO; }
+	public CustomerDAO getCustomerDAO()  { return accountDAO; }
 	public UserDAO getUserDAO()  { return userDAO; }
+	public TransactionDAO getTransactionDAO()  { return transactionDAO; }
+	public PositionDAO getPositionDAO()   { return positionDAO; }
 
 	
 }
