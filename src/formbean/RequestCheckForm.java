@@ -12,11 +12,11 @@ public class RequestCheckForm extends FormBean {
 		return amount;
 	}
 // hope this would not create a problem
-	public double getCheckAmountAsDouble() {
+	public long getCheckAmountAsLong() {
 		// Be sure to first call getValidationErrors() to ensure
 		// that NullPointer exception or NumberFormatException will not be
 		// thrown!
-		return Double.parseDouble(amount);
+		return Long.parseLong(amount);
 	}
 
 	public void setCheckAmount(String amount) {
@@ -32,7 +32,7 @@ public class RequestCheckForm extends FormBean {
 		}
 
 		try {
-		 Double amt = Double.parseDouble(amount);
+		 long amt = Long.parseLong(amount);
 			if (amt < 0) {
 				errors.add("Amount cannot be negative!");
 				
